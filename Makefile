@@ -1,26 +1,49 @@
 CONTAINER_NAME = react_hello_world
 PROJECT_ID = kavi-prod-gke-demo
-
-# DOCKER COMMANDS
-
-build:
-	docker build -f "Dockerfile" -t ${CONTAINER_NAME}:dev .
+ZONE=us-central1-c
+CLUSTER_NAME = demo-cluster
+KUBE_CONTEXT = gke_kavi-prod-gke-demo_us-central1-c_demo-cluster
 
 
-run:
-	docker run --rm \
-	-d \
-	-p 5001:5000 \
-	--name ${CONTAINER_NAME} -it ${CONTAINER_NAME}:dev
+# GCLOUD COMMANDS
 
+login:
+	gcloud auth login
+	gcloud auth application-default login
+	gcloud auth configure-docker
+
+gke_login:
+	gcloud container clusters get-credentials ${} \
+	--project ${PROJECT_ID} \
+	--zone ${ZONE}
+
+
+# KUBERNETES COMMANDS
+
+set_context:
+	kubectl config set current-context ${KUBE_CONTEXT}
+	kubectl config current-context
+
+create_namespace:
+	kubect create ns react
 
 watch:
-	watch -n 5 docker container ls
+	watch -n 4 kubectl get pods,deploy,svc,nodes -n react
 
 
-# GCR COMMANDS
+# KUBERNETES DEPLOYMENT COMMAND
 
+k8s_deploy:
+	kubectl apply -f kubernetes/react_deploy.yml -n react
+	kubectl apply -f kubernetes/react_svc.yml -n react
+	kubectl apply -f kubernetes/react_configmap.yml -n react
 
-push: build
-	docker tag ${CONTAINER_NAME}:dev gcr.io/${PROJECT_ID}/${CONTAINER_NAME}:dev
-	docker push gcr.io/${PROJECT_ID}/${CONTAINER_NAME}:dev
+k8s_delete:
+	kubectl delete -f kubernetes/react_deploy.yml -n react
+	kubectl delete -f kubernetes/react_svc.yml -n react
+	kubectl delete -f kubernetes/react_configmap.yml -n react
+
+# KUBERNETES DEPLOYMENT COMMAND
+
+k8s_exec:
+	kubectl exec --stdin --tty -- /bin/bash

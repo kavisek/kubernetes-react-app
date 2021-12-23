@@ -23,6 +23,7 @@ exec: build
 	docker run --entrypoint /bin/bash --name ${CONTAINER_NAME} -it ${CONTAINER_NAME}:dev 
 
 
-
-yo:
-	echo yo
+.PHONY: push
+push: build
+	docker tag ${CONTAINER_NAME}:dev gcr.io/${PROJECT_ID}/${CONTAINER_NAME}:dev
+	docker push gcr.io/${PROJECT_ID}/${CONTAINER_NAME}:dev
