@@ -34,16 +34,38 @@ watch:
 # KUBERNETES DEPLOYMENT COMMAND
 
 k8s_deploy:
-	kubectl apply -f kubernetes/react_deploy.yml -n react
-	kubectl apply -f kubernetes/react_svc.yml -n react
-	kubectl apply -f kubernetes/react_configmap.yml -n react
+	kubectl apply -f kubernetes/react_deploy.yaml -n react
+	kubectl apply -f kubernetes/react_svc.yaml -n react
+	kubectl apply -f kubernetes/react_configmap.yaml -n react
 
 k8s_delete:
-	kubectl delete -f kubernetes/react_deploy.yml -n react
-	kubectl delete -f kubernetes/react_svc.yml -n react
-	kubectl delete -f kubernetes/react_configmap.yml -n react
+	kubectl delete -f kubernetes/react_deploy.yaml -n react
+	kubectl delete -f kubernetes/react_svc.yaml -n react
+	kubectl delete -f kubernetes/react_configmap.yaml -n react
 
-# KUBERNETES DEPLOYMENT COMMAND
+# KUBERNETES TROUBLESHOOTING COMMANDS
 
 k8s_exec:
 	kubectl exec --stdin --tty -- /bin/bash
+
+
+# HELM COMMANDS
+
+helm_dry_run:
+	helm install react ./react/ \
+	--namespace react \
+	--values ./react/values.yaml \
+	--set configmap.REACT_APP_OWNER=kavi2 \
+	--create-namespace \
+	--dry-run
+
+helm_install:
+	helm install react ./react/ \
+	--namespace react \
+	--values ./react/values.yaml \
+	--set configmap.REACT_APP_OWNER=kavi2 \
+	--create-namespace \
+
+helm_uninstall:
+	helm uninstall react \
+	--namespace react \

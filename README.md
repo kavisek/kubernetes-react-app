@@ -1,7 +1,9 @@
 # kubernetes-react-app
 
-/kubernetes: basic kubernetes deployment
-/helm: helm templated manifests
+This is a small demo to show how helm works.
+
+- /kubernetes: basic kubernetes deployment
+- /helm: helm templated manifests
 ### Development
 
 Start the the development server. VS Code will build the `Dockerfile.dev`
@@ -58,3 +60,36 @@ Check the external ip address for react service with `kubectl get svc -n react` 
 # Deploy (kubectl delete)
 make k8s_delete
 ```
+
+### Helm Deployment
+
+1. Install via Helm
+```bash
+# Install helm chart
+make helm_install
+```
+
+2. Uninstall via Helm
+
+```bash
+# Uninstall via helm.
+make helm_uninstall
+```
+
+
+### Helm Inheritance Hierarchy
+
+The Hierarchy of Inheritance...
+
+- Docker Container (Single App): Container ENV -> Container ARGS
+- Docker Compose (Multi App Configuration): Container ENV -> docker-compose.yaml
+- Kubernetes (Multi App Configuration): Container ENV -> CONTAINER ARG -> CONFIGMAP
+- HELM (Templating Multi App Configuration): Container ENV -> CONTAINER ARG -> CONFIGMAP -> values.yaml -> HELM CLI
+
+Any configuration values specified at following level are saved as code. You probably don't want to save secrets here.  
+- Container ENV  
+- CONTAINER ARG  
+- CONFIGMAP  
+- values.yaml  
+
+Specifying secret injection at the HELM CLI level during your CICD pipeline is probably the best strategy.

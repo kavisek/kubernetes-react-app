@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-hello-world
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels: 
+      app: react-hello-world
+  template:
+    metadata:
+      labels:
+        app: react-hello-world
+    spec:
+      containers:
+      - name: react-hello-world
+        image: gcr.io/kavi-prod-gke-demo/react_hello_world:dev
+        imagePullPolicy: "Always"
+        envFrom:
+          - configMapRef:
+              name: react-config
+        ports:
+        - containerPort: {{ .Values.containerPort }}
