@@ -1,0 +1,14 @@
+{
+	"name": "Dev Environment",
+	"context": "../",
+	"dockerFile": "../hello-world/Dockerfile.dev",
+	"extensions": [
+  ],
+  "containerEnv": { "NODE_ENV": "development" , "REACT_APP_OWNER": "kavi"},
+  "mounts": [
+	  "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config,target=/root/.config,type=bind,consistency=cached",
+	  "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
+	  "source=${localEnv:HOME}${localEnv:USERPROFILE}/.kube,target=/root/.kube,type=bind,consistency=cached",
+  ],
+//   "runArgs": [ "--network=dev-nework" ],
+}

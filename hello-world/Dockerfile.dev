@@ -1,0 +1,10 @@
+FROM node:14
+
+LABEL version="1.0.0"
+LABEL maintainer = ['kavi']
+LABEL description = "Creating a new version."
+
+WORKDIR /app
+
+
+ENTRYPOINT ["bin/bash"]
