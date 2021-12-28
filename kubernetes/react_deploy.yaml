@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: react-hello-world
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels: 
       app: react-hello-world
@@ -20,4 +20,4 @@ spec:
           - configMapRef:
               name: react-config
         ports:
-        - containerPort: {{ .Values.containerPort }}
+        - containerPort: 3000

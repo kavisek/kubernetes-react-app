@@ -8,5 +8,5 @@ spec:
     app: react-hello-world
   ports:
   - protocol: TCP
-    port: {{ .Values.containerPort }}
-    targetPort: {{ .Values.containerPort }}
+    port: 3000
+    targetPort: 3000
